@@ -21,13 +21,13 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AuthSerivce {
+public class AuthService {
 
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
-    private JwtTokenProvider jwtTokenProvider;
-    private AuthenticationManager authenticationManager;
+    private final UserRepository userRepository; 
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final AuthenticationManager authenticationManager;
 
     public void register(UserCreateDto dto) {
         if (userRepository.existsByEmail(dto.getEmail())) {
