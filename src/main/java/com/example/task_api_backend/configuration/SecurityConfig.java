@@ -34,13 +34,12 @@ public class SecurityConfig {
                 "/swagger-ui.html",
                 "/v3/api-docs/**",
                 "/swagger-resources/**",
-                "/webjars/**", "/auth/register",
-                "/auth/login", "/auth/refresh"
+                "/webjars/**"
             ).permitAll()
                             .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
+        
         return http.build();
     }
 
