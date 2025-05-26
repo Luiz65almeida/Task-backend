@@ -9,7 +9,8 @@ Este projeto é uma API RESTful desenvolvida com **Spring Boot 3.5**, projetada 
 - CRUD completo de tarefas
 - Filtro de requisições com JWT e Spring Security
 - Documentação interativa com Swagger UI
-- Estrutura preparada para testes (JUnit + Mockito - a serem implementados)
+- Estrutura preparada para testes (JUnit + Mockito)
+- **Mapeamento automático entre DTOs e entidades com MapStruct**
 
 ## Tecnologias e Ferramentas
 
@@ -21,6 +22,7 @@ Este projeto é uma API RESTful desenvolvida com **Spring Boot 3.5**, projetada 
 - MySQL
 - JWT (JSON Web Token)
 - Swagger (Springdoc OpenAPI)
+- MapStruct
 - Maven
 - Docker (opcional)
 
@@ -42,6 +44,22 @@ Este projeto é uma API RESTful desenvolvida com **Spring Boot 3.5**, projetada 
 | **Spring Boot Test**          | Framework de testes com JUnit e Mockito                   |
 | **Spring Security Test**      | Testes específicos para segurança Spring                  |
 
+## Uso de MapStruct
+
+O projeto faz uso prático de **MapStruct** para automatizar o mapeamento entre entidades e DTOs, melhorando legibilidade e manutenção.
+
+### Mappers criados:
+
+- `UserMapper` - para `User ↔ UserDto`, `UserCreateDto`
+- `TaskMapper` - para `Task ↔ TaskDto`, `TaskCreateDto`, `TaskUpdateDto`
+- `RoleMapper` - para `Role ↔ RoleDto`
+
+### Onde são usados:
+
+- `AuthService` usa `UserMapper` para registrar usuários
+- `UserService` usa `UserMapper` para retornar o perfil autenticado
+- `TaskService` usa `TaskMapper` para criação, listagem e atualização de tarefas
+
 ## Estrutura de Pacotes
 
 ```
@@ -52,6 +70,7 @@ com.example.task_api_backend
 ├── repository         # Interfaces de acesso a dados
 ├── model              # Entidades JPA: Task, User, Role
 ├── dto                # Objetos de transferência de dados
+├── mapper             # Mapeadores DTO ↔ Entidade (via MapStruct)
 ├── configuration      # SwaggerConfig e SecurityConfig
 ├── security           # JWT Provider e Filtro de Autenticação
 ├── exception          # Handler de exceções globais
@@ -90,14 +109,7 @@ spring.jpa.show-sql=true
 ### Docker (para banco de dados)
 
 ```bash
-docker run -d \
-    --name mysql-dev \
-    -e MYSQL_ROOT_PASSWORD=root \
-    -e MYSQL_DATABASE=task_api_backend \
-    -e MYSQL_USER=usuario \
-    -e MYSQL_PASSWORD=123456 \
-    -p 3306:3306 \
-    mysql:latest
+docker run -d     --name mysql-dev     -e MYSQL_ROOT_PASSWORD=root     -e MYSQL_DATABASE=task_api_backend     -e MYSQL_USER=usuario     -e MYSQL_PASSWORD=123456     -p 3306:3306     mysql:latest
 ```
 
 ## Melhorias Futuras
@@ -107,7 +119,7 @@ docker run -d \
 
 ## Testes
 
-Os testes implementados em `src/test/java/com/example/task_api_backend` tem o foco em:
+Os testes implementados em `src/test/java/com/example/task_api_backend` têm o foco em:
 
 - Services e lógica de negócio
 - Validação dos DTOs
