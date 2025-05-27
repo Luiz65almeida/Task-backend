@@ -4,7 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.task_api_backend.dto.UserDto;
-import com.example.task_api_backend.mapper.UserMapper; // [ADICIONADO]
+import com.example.task_api_backend.mapper.UserMapper;
 import com.example.task_api_backend.model.User;
 
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserMapper userMapper; // [ADICIONADO]
+    private final UserMapper userMapper;
 
     public User getCurrentUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -21,6 +21,6 @@ public class UserService {
 
     public UserDto getProfile() {
         User user = getCurrentUser();
-        return userMapper.toDto(user); // [SUBSTITUI MAPEAMENTO MANUAL]
+        return userMapper.toDto(user);
     }
 }

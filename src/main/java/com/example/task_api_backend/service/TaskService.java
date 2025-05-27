@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.example.task_api_backend.dto.TaskCreateDto;
 import com.example.task_api_backend.dto.TaskDto;
 import com.example.task_api_backend.dto.TaskUpdateDto;
-import com.example.task_api_backend.mapper.TaskMapper; // [ADICIONADO]
+import com.example.task_api_backend.mapper.TaskMapper;
 import com.example.task_api_backend.model.Task;
 import com.example.task_api_backend.model.User;
 import com.example.task_api_backend.repository.TaskRepository;
@@ -19,15 +19,15 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final UserService userService;
-    private final TaskMapper taskMapper; // [ADICIONADO]
+    private final TaskMapper taskMapper; 
 
     public TaskDto create(TaskCreateDto dto) {
         User user = userService.getCurrentUser();
-        Task task = taskMapper.toEntity(dto); // [SUBSTITUI MAPEAMENTO MANUAL]
+        Task task = taskMapper.toEntity(dto);
         task.setDone(false);
         task.setOwner(user);
         Task saved = taskRepository.save(task);
-        return taskMapper.toDto(saved); // [SUBSTITUI MAPEAMENTO MANUAL]
+        return taskMapper.toDto(saved);
     }
 
     public TaskDto update(Long id, TaskUpdateDto dto) {
@@ -40,7 +40,7 @@ public class TaskService {
         if (dto.getDone() != null) task.setDone(dto.getDone());
 
         Task updated = taskRepository.save(task);
-        return taskMapper.toDto(updated); // [SUBSTITUI MAPEAMENTO MANUAL]
+        return taskMapper.toDto(updated);
     }
 
     public void delete(Long id) {
@@ -54,7 +54,7 @@ public class TaskService {
     public Page<TaskDto> list(Pageable pageable) {
         User user = userService.getCurrentUser();
         return taskRepository.findByOwnerId(user.getId(), pageable)
-                .map(taskMapper::toDto); // [SUBSTITUI MAPEAMENTO MANUAL]
+                .map(taskMapper::toDto);
     }
 
     public TaskDto getById(Long id) {
@@ -62,6 +62,6 @@ public class TaskService {
         Task task = taskRepository.findById(id)
                 .filter(t -> t.getOwner().getId().equals(user.getId()))
                 .orElseThrow(() -> new RuntimeException("Tarefa não encontrada ou acesso negado."));
-        return taskMapper.toDto(task); // [SUBSTITUI MAPEAMENTO MANUAL]
+        return taskMapper.toDto(task);
     }
 }
