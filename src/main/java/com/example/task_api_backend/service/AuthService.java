@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.task_api_backend.dto.AuthRequestDto;
 import com.example.task_api_backend.dto.AuthResponseDto;
 import com.example.task_api_backend.dto.UserCreateDto;
-import com.example.task_api_backend.mapper.UserMapper; // [ADICIONADO]
+import com.example.task_api_backend.mapper.UserMapper;
 import com.example.task_api_backend.model.Role;
 import com.example.task_api_backend.model.User;
 import com.example.task_api_backend.repository.RoleRepository;
@@ -29,7 +29,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
-    private final UserMapper userMapper; // [ADICIONADO]
+    private final UserMapper userMapper;
 
     public void register(UserCreateDto dto) {
         if (userRepository.existsByEmail(dto.getEmail())) {
@@ -38,7 +38,7 @@ public class AuthService {
         Role roleUser = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("Perfil padrão não encontrado."));
 
-        User user = userMapper.toEntity(dto); // [SUBSTITUI MAPEAMENTO MANUAL]
+        User user = userMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRoles(Collections.singleton(roleUser));
 
